@@ -1,0 +1,58 @@
+curl -s "https://www.archlinux.org/mirrorlist/?country=CA&country=US&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
+tar -x yay.tar.gz 
+tar --extract -f yay.tar.gz
+cd yay
+makepkg -si
+yay -S --needed python-nipype
+yay -S python-nibabel
+yay -S spm12
+yay -S fsl
+yay -S afni
+yay -S ants
+yay -S freesurfer
+yay -S fsl
+yay -S ants
+yay -S insight-toolkit #need to add patch
+sudo pacman -S cmake
+mkdir ~/code
+cd code/
+git clone https://github.com/stnava/ANTs.git
+mkdir -p ~/bin/ants
+cd ~/bin/ants/
+ccmake ~/code/ANTs/
+make
+pacman -Qi ants
+git clone https://github.com/liamtimms/aur.git
+sudo pacman -S pacutils
+yay -S 3dslicer
+pacman -S xclip
+yay -S afni
+yay -S insight-toolkit
+yay --stats --show
+yay -S gdcm
+pacman -S zip unzip
+sudo pacman -S xf86-video-intel
+sudo pacman -S xorg
+sudo pacman -S libinput
+sudo pacman -S xf86-input-synaptics
+sudo pacman -S gnome
+sudo pacman -S gnome-terminal
+sudo pacman -S gdm
+systemctl start gdm
+sudo pacman -S gnome-tweaks
+systemctl enable gdm
+sudo pacman -S networkmanager gnome-keyring
+sudo systemctl start NetworkManager
+sudo systemctl enable NetworkManager
+sudo pacman -S gnome-shell-extensions
+sudo pacman -S firefox
+sudo pacman -S noto-fonts
+yay -S ttf-ms-fonts
+sudo pacman -S hicolor-icon-theme
+sudo pacman -S papirus-icon-theme
+sudo pacman -S chrome-gnome-shell
+sudo pacman -S arc-gtk-theme
+yay -S gnome-terminal-transparency
+sudo pacman -S neofetch
+sudo pacman -S jupyterlab
+sudo pacman -S nodejs
