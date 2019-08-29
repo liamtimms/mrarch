@@ -56,3 +56,13 @@ yay -S gnome-terminal-transparency
 sudo pacman -S neofetch
 sudo pacman -S jupyterlab
 sudo pacman -S nodejs
+
+# matlab set up
+xhost si:localuser:root
+sudo pacman -S gtk-engine-murrine
+cd /usr/local/MATLAB/R2017b
+cd cefclient/sys/os/glnxa64
+sudo mkdir exclude
+sudo mv libg* exclude/
+cd ~
+
