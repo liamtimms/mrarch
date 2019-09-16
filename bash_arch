@@ -19,8 +19,8 @@ sudo pacman -S xf86-video-intel
 sudo pacman -S xf86-input-synaptics
 sudo pacman -S xorg
 sudo pacman -S firefox noto-fonts jupyterlab zathura-pdf-mupdf baobab libreoffice-fresh
-# Download Yay and make the package
-# Yay will then be used to install AUR packages
+# Download Yay and install it from source code
+# Yay will then be used to install all AUR packages
 cd ~
 mkdir .yay-setup
 cd .yay-setup
@@ -54,8 +54,6 @@ make
 pacman -Qi ants
 git clone https://github.com/liamtimms/aur.git
 
-yay -S python-nipype
-
 # Setting up GNOME
 sudo pacman -S xorg
 sudo pacman -S libinput
@@ -88,4 +86,17 @@ sudo mkdir exclude
 sudo mv libg* exclude/
 cd ~
 
+yay -S spm12
+# Add SPM12 to MATLAB path file initialized by freesurfer
+cat <<EOT >> ~/matlab/startup.m
+%------------------- SPM 12 --------------------------%
+spmhome = '/opt/spm12';
+if (exist(spmhome) == 7)
+	path(path,spmhome);
+end
+clear spmhome
+%-----------------------------------------------------%
+EOT
+
+yay -S python-nipype
 yay --stats --show
