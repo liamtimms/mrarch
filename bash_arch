@@ -1,8 +1,8 @@
 #!/bin/bash
 # Purpose: A script to set up Arch Linux for Neuroimaging
 # Author: Liam Timms
-# Date: 9/12/19
-# Version: 0.1
+# Date: 9/16/19
+# Version: 0.1.1
 
 # Download Canadian and USA mirrorlist, then rank them by speed
 sudo pacman -S pacman-contrib
@@ -29,19 +29,19 @@ cd yay
 makepkg -si
 
 # Now start installing AUR packages for Neuroimaging
-yay -S --needed python-nipype
 yay -S python-nibabel
+yay -S gdcm
 # commenting out spm12 because it should be installed after MATLAB
 # However, it's possible this is a hidden dependency for another
 # Neuroimaging suite
 # yay -S spm12
-# yay -S fsl
-yay -S afni
-# yay -S ants
 yay -S freesurfer
 yay -S fsl
 # yay -S ants
+yay -S 3dslicer
+yay -S afni
 yay -S insight-toolkit #need to add patch: make generic in CMAKE
+# Ants manual install
 mkdir ~/code
 cd code/
 git clone https://github.com/stnava/ANTs.git
@@ -49,20 +49,18 @@ mkdir -p ~/bin/ants
 cd ~/bin/ants/
 ccmake ~/code/ANTs/
 make
+# At this point, the underlying Neuroimaging suites should be
+# installed and working, but not those that depend on MATLAB
 pacman -Qi ants
 git clone https://github.com/liamtimms/aur.git
-yay -S 3dslicer
-yay -S afni
-yay -S insight-toolkit
-yay -S gdcm
+
+yay -S python-nipype
 
 # Setting up GNOME
 sudo pacman -S xorg
 sudo pacman -S libinput
-sudo pacman -S gnome
-sudo pacman -S gnome-terminal
-sudo pacman -S gdm
-sudo pacman -S gnome-tweaks
+sudo pacman -S gnome gnome-terminal gnome-tweaks
+sudo pacman -S gdm # the display manager
 systemctl enable gdm
 sudo pacman -S networkmanager gnome-keyring
 sudo systemctl start NetworkManager
@@ -73,6 +71,7 @@ yay -S ttf-ms-fonts
 sudo pacman -S hicolor-icon-theme papirus-icon-theme arc-gtk-theme
 sudo pacman -S chrome-gnome-shell
 yay -S gnome-terminal-transparency
+yay -S gnome-shell-extension-dash-to-dock
 sudo pacman -S nodejs
 
 # MATLAB is very annoying and they don't let Linux repos
@@ -84,8 +83,7 @@ sudo pacman -S nodejs
 # matlab set up
 xhost si:localuser:root
 sudo pacman -S gtk-engine-murrine
-cd /opt/MATLAB/R2017b
-cd cefclient/sys/os/glnxa64
+cd /opt/MATLAB/R2019b/cefclient/sys/os/glnxa64
 sudo mkdir exclude
 sudo mv libg* exclude/
 cd ~
