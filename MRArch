@@ -52,7 +52,8 @@ make
 # At this point, the underlying Neuroimaging suites should be
 # installed and working, but not those that depend on MATLAB
 pacman -Qi ants
-git clone https://github.com/liamtimms/aur.git
+
+#git clone https://github.com/liamtimms/aur.git
 
 # Setting up GNOME
 sudo pacman -S xorg
@@ -72,31 +73,4 @@ yay -S gnome-terminal-transparency
 yay -S gnome-shell-extension-dash-to-dock
 sudo pacman -S nodejs
 
-# MATLAB is very annoying and they don't let Linux repos
-# host any of the files, it's the worst
-# To install MATLAB you must:
-# 1. go to mathworks site
-# 2. you have to download, extract and start installer
-# 3. when choosing the path, be sure to install it into /opt/MATLAB/<version name>
-# matlab set up
-xhost si:localuser:root
-sudo pacman -S gtk-engine-murrine
-cd /opt/MATLAB/R2019b/cefclient/sys/os/glnxa64
-sudo mkdir exclude
-sudo mv libg* exclude/
-cd ~
-
-yay -S spm12
-# Add SPM12 to MATLAB path file initialized by freesurfer
-cat <<EOT >> ~/matlab/startup.m
-%------------------- SPM 12 --------------------------%
-spmhome = '/opt/spm12';
-if (exist(spmhome) == 7)
-	path(path,spmhome);
-end
-clear spmhome
-%-----------------------------------------------------%
-EOT
-
-yay -S python-nipype
-yay --stats --show
+# Next you need to install MATLAB and then run MRArch2
