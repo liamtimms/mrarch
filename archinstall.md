@@ -1,9 +1,6 @@
-% MRArch Install and Setup
-% Liam Timms
-% \today
----
-theme: Singapore
-geometry: margin=.5in
+# MRArch Install and Setup
+author: Liam Timms
+date: 9/18/19
 ---
 
 # Install Virtual Box
@@ -17,6 +14,7 @@ geometry: margin=.5in
 
 # Set up the Virtual Machine (VM)
 ## Download
+
 1. Go to https://www.archlinux.org/download/
 
 2. Get most recent ISO
@@ -28,7 +26,7 @@ geometry: margin=.5in
 4. **Memory size**: at least 4GB but up to 50-60% of your total RAM if you don't plan to run much concurrently with the VM.
 5. **create virtual hard disk**
 6. **VDI**
-7. **Dynamically allocated** keeps the file form being huge
+7. **Dynamically allocated** keeps the file from being huge
 8. For **size**: enter at least 50GB, the full suite of neuroimaging analysis software is quite large, Ideally the VM should be closer to 100GB (though you will not use 100GB on your host machine if it is dynamically allocated)
 9. finish and hit the green start arrow to boot the machine
 
@@ -58,7 +56,8 @@ geometry: margin=.5in
 8. **Install arch linux pacstrap base**: this now actually installs arch onto the VM disk
 
 ## After the Install
-* We now have a base system with almost nothing installed, we have no desktop, very little software, no users, no password, next we will set up all of that
+
+We now have a base system with almost nothing installed, we have no desktop, very little software, no users, no password, next we will set up all of that
 
 1. **Set Computer Name**: best to use the same name as what you named the virtual machine at the begining of its set-up (this is why I said no caps and spaces)
 2. **Keyboard Layout**: us
@@ -81,15 +80,17 @@ geometry: margin=.5in
 4. **Password**: the one you choose earlier
 5. Congrats we are now in a totally fresh, minimal arch Install
 
-# Set up MRArch
-
-1. Install git and sudo: pacman -S git sudo
-2. make a normal user account for yourself: useradd -m -G wheel *your new username*
-3. set password, recommend you just set it to be the same as the root password you chose during install: passwd *your new username*
-4. edit the sudoers file to allow *your new user* to "sudo": run "visudo" then uncomment "%wheel ALL=(ALL) ALL" to unlock sudoing for the wheel Group (which includes your new user)
+## Setting up your user account
+1. Install git and sudo: `pacman -S git sudo`
+2. make a normal user account for yourself: `useradd -m -G wheel *your new username*`
+3. set password, recommend you just set it to be the same as the root password you chose during install: `passwd` *your new username*
+4. edit the sudoers file to allow *your new user* to "sudo": run `visudo` then uncomment `%wheel ALL=(ALL) ALL` to unlock sudoing for the wheel Group (which includes your new user)
 4. logout of root: logout
 5. login with your new account. Recommendation: before continuing, go to **machine** at the top of the VM's window and click "take snapshot", this will allow us to revert back to this clean state if we wish at a later point.
-6. clone the MRarch repository so that you can run my install script for all the neuroimaging and desktop: git clone https://github.com/liamtimms/mrarch.git
+
+# Set up MRArch
+1. clone the MRarch repository so that you can run my install script for all the neuroimaging and desktop: git clone https://github.com/liamtimms/mrarch.git
+2. run: `./MRArch`
 
 
 
