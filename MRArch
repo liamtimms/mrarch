@@ -8,6 +8,13 @@
 sudo pacman -S pacman-contrib
 curl -s "https://www.archlinux.org/mirrorlist/?country=CA&country=US&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -
 
+cd ~
+#mkdir .yay-setup
+#cd .yay-setup
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
 sudo pacman -S pacutils
 # Basic useful programs
 # Utilities
@@ -21,13 +28,6 @@ sudo pacman -S xorg
 sudo pacman -S firefox noto-fonts jupyterlab zathura-pdf-mupdf baobab libreoffice-fresh
 # Download Yay and install it from source code
 # Yay will then be used to install all AUR packages
-cd ~
-mkdir .yay-setup
-cd .yay-setup
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-
 # Now start installing AUR packages for Neuroimaging
 yay -S python-nibabel
 yay -S gdcm
@@ -41,9 +41,12 @@ yay -S fsl
 yay -S 3dslicer
 yay -S afni
 yay -S insight-toolkit #need to add patch: make generic in CMAKE
+
+
 # Ants manual install
+cd ~
 mkdir ~/code
-cd code/
+cd ~/code/
 git clone https://github.com/stnava/ANTs.git
 mkdir -p ~/bin/ants
 cd ~/bin/ants/
@@ -52,6 +55,10 @@ make
 # At this point, the underlying Neuroimaging suites should be
 # installed and working, but not those that depend on MATLAB
 pacman -Qi ants
+cat <<EOT >> ~/.bashrc
+export ANTSPATH=${HOME}/bin/ants/bin/
+export PATH=${ANTSPATH}:$PATH
+EOT
 
 #git clone https://github.com/liamtimms/aur.git
 
