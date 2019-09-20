@@ -82,7 +82,7 @@ We now have a base system with almost nothing installed, we have no desktop, ver
 
 ## Setting up your user account
 1. Install git and sudo: `pacman -S git sudo`
-2. make a normal user account for yourself: `useradd -m -G wheel <your new username>`
+2. make a normal user account for yourself: `useradd -m -G wheel,vboxsf <your new username>`
 3. set password, recommend you just set it to be the same as the root password you chose during install: `passwd <your new username>`
 4. edit the sudoers file to allow *your new user* to "sudo": run `visudo` then uncomment `%wheel ALL=(ALL) ALL` to unlock sudoing for the `wheel` Group (which includes your new user)
 4. logout of root: logout
