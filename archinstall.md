@@ -21,7 +21,7 @@ date: 9/18/19
 
 ## Make a VM
 1. Open virtualbox
-2. click "new", each remaning item corresponds to one screen of options
+2. click "new", each remaining item corresponds to one screen of options
 3. **Name**: a name for your virtual machine AVOID CAPS AND SPACES, **Type**: Linux, **Version**: Arch Linux (64-bit)
 4. **Memory size**: at least 4GB but up to 50-60% of your total RAM if you don't plan to run much concurrently with the VM.
 5. **create virtual hard disk**
@@ -69,7 +69,7 @@ We now have a base system with almost nothing installed, we have no desktop, ver
 6. **Generate fstab**: UUID genfstab -U (this is about the file system table using the device ID to find things... just do the first option)
 7. **Bootloader**: grub, install grub (installs the program "grub"), install bootloader grub-install (actually makes a bootloader (thing that loads the OS)), back
 8. **Enable dhcpcd**: Yes
-9. Do not click **archdi**, this will put you into a desktop environment set up and instart installing a bunch of programs, instead click **Back**
+9. Do not click **archdi**, this will put you into a desktop environment set up and start installing a bunch of programs, instead click **Back**
 10. **Unmount**, **Back**, **Reboot**
 11. the reboot will take you back to the live environment so at the start screen choose **Power off**
 
@@ -94,12 +94,12 @@ We now have a base system with almost nothing installed, we have no desktop, ver
 1. clone the MRarch repository so that you can run my install script for all the neuroimaging and desktop: `git clone https://github.com/liamtimms/mrarch.git`
 2. `cd mrarch` to go into the folder you just downloaded then run: `./MRArch` to start the script
 3. enter password, hit enter to continue as needed
-4. when confronted with a ccmake prompt (will look different from the normal prompt), hit `c` , this will do an initial configuration for the complation of ANTS (https://github.com/ANTsX/ANTs), hit `c` again
+4. when confronted with a ccmake prompt (will look different from the normal prompt), hit `c` , this will do an initial configuration for the compilation of ANTS (https://github.com/ANTsX/ANTs), hit `c` again
 4. wait a long time as a lot will need to download, install and sometimes also compile
 5. after the install script you should be able to boot into the GNOME desktop environment (DE), try rebooting now and login
 
 ## Install MATLAB
-Because MATLAB is very annoying closed-source prioperitary software you need to install it seperately from all the other programs we are using
+Because MATLAB is very annoying closed-source proprietary software you need to install it separately from all the other programs we are using
 
 1.
 
