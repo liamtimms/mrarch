@@ -33,8 +33,8 @@ date: 9/18/19
 ## Boot into the live environment
 1. Choose the arch ISO you downloaded to boot from when prompted, choose to start the live environment
 2. The live environment allows us to make changes formatting changes to the new VM disk
-3. to speed things up we will use an install script: https://github.com/MatMoul/archfi
-5. for help in this process (instructions for the full install without the archfi script) see: https://wiki.archlinux.org/index.php/Installation_guide
+3. to speed things up we will use an install script: https://github.com/MatMoul/archfi , follow the instructions for downloading the script and running it in the live environment as explained on the page for that project.
+5. For detailed help or background information about the install process (instructions for the full install without the archfi script) see: https://wiki.archlinux.org/index.php/Installation_guide
 
 ## Installing with Archfi in the VM
 1. **Language**: English
@@ -82,16 +82,17 @@ We now have a base system with almost nothing installed, we have no desktop, ver
 
 ## Setting up your user account
 1. Install git and sudo: `pacman -S git sudo`
+2. because we are using virtualbox we will add a virtualbox user group: `groupadd vboxsf`
 2. make a normal user account for yourself: `useradd -m -G wheel,vboxsf <your new username>`
-3. set password, recommend you just set it to be the same as the root password you chose during install: `passwd <your new username>`
+3. set password, I recommend you just set it to be the same as the root password you chose during install so you don't have to remember two passwords to use the VM: `passwd <your new username>`
 4. edit the sudoers file to allow *your new user* to "sudo": run `visudo` then uncomment `%wheel ALL=(ALL) ALL` to unlock sudoing for the `wheel` Group (which includes your new user)
 4. logout of root: logout
 5. login with your new account. Recommendation: before continuing, go to **machine** at the top of the VM's window and click "take snapshot", this will allow us to revert back to this clean state if we wish at a later point.
 
 # Set up MRArch
 ## Running the first script
-1. clone the MRarch repository so that you can run my install script for all the neuroimaging and desktop: git clone https://github.com/liamtimms/mrarch.git
-2. run: `./MRArch`
+1. clone the MRarch repository so that you can run my install script for all the neuroimaging and desktop: `git clone https://github.com/liamtimms/mrarch.git`
+2. `cd mrarch` to go into the folder you just downloaded then run: `./MRArch` to start the script
 3. enter password, hit enter to continue as needed
 4. when confronted with a ccmake prompt (will look different from the normal prompt), hit `c` , this will do an initial configuration for the complation of ANTS (https://github.com/ANTsX/ANTs), hit `c` again
 4. wait a long time as a lot will need to download, install and sometimes also compile
