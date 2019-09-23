@@ -114,5 +114,5 @@ Because MATLAB is proprietary software whose obnoxious licsence prohibits instal
 
 ## MRArch2
 
-1. `yay --editmenu -S spm12`
+1. `yay --editmenu -S spm12` change the `_BUILDMATLAB` variable to true
 
