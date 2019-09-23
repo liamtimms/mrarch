@@ -101,9 +101,16 @@ We now have a base system with almost nothing installed, we have no desktop, ver
 5. after the install script you should be able to boot into the GNOME desktop environment (DE), try rebooting now and login
 
 ## Install MATLAB
-Because MATLAB is very annoying closed-source proprietary software you need to install it separately from all the other programs we are using
+Because MATLAB is proprietary software whose obnoxious licsence prohibits installation through a package manager; you need to install it separately from all the other programs via a manual approach.
 
-1.
+1. Go to the mathworks website and sign in with your NEU (or other school) account
+2. download the MATLAB installer for Linux
+3. unzip the MATLAB installer
+4. navigate to the newly unzipped file in the terminal and run `sudo ./install`
+5. login again with your MathWorks account
+6. **DO NOT USE THE DEFAULT INSTALLATION FOLDER** instead choose: `/opt/matlab/R<edition of matlab>` so for when this was written I input `/opt/matlab/R2019b` this is important because it will allow SPM12 and Nipype to successfully interface with MATLAB.
+7. In installing MATLAB, please select to also install the MATLAB Coder, MATLAB Complier and MATLAB SDK, if you receive an error indicating that you do not have enough space in `/tmp/` uncheck some of the other add-ons that are selected by default until you are able to install it. You can always install additional add-ons later by starting MATLAB with `sudo matlab` and then selecting addons.
+8. Activate MATLAB and sign in for a 3rd time
 
 
 
