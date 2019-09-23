@@ -10,7 +10,7 @@
 # matlab set up
 xhost si:localuser:root
 sudo pacman -S gtk-engine-murrine
-cd /opt/MATLAB/R2019b/cefclient/sys/os/glnxa64
+cd /opt/matlab/R2019b/cefclient/sys/os/glnxa64
 sudo mkdir exclude
 sudo mv libg* exclude/
 cd ~
