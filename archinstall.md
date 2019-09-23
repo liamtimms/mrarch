@@ -28,7 +28,9 @@ date: 9/18/19
 6. **VDI**
 7. **Dynamically allocated** keeps the file from being huge
 8. For **size**: enter at least 50GB, the full suite of neuroimaging analysis software is quite large, Ideally the VM should be closer to 100GB (though you will not use 100GB on your host machine if it is dynamically allocated)
-9. finish and hit the green start arrow to boot the machine
+9. to speed up the install process, it is a good idea to go into the **Settings** for the new VM, click on **System** -> **Processor** and increase the number of virtual cores available to the VM
+10. Next in **Settings** you should go to **Display** and change the *Graphics Controller* option to be `VBoxVGA`
+11. finish and hit the green start arrow to boot the machine
 
 ## Boot into the live environment
 1. Choose the arch ISO you downloaded to boot from when prompted, choose to start the live environment
