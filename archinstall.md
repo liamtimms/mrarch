@@ -110,7 +110,9 @@ Because MATLAB is proprietary software whose obnoxious licsence prohibits instal
 5. login again with your MathWorks account
 6. **DO NOT USE THE DEFAULT INSTALLATION FOLDER** instead choose: `/opt/matlab/R<edition of matlab>` so for when this was written I input `/opt/matlab/R2019b` this is important because it will allow SPM12 and Nipype to successfully interface with MATLAB.
 7. In installing MATLAB, please select to also install the MATLAB Coder, MATLAB Complier and MATLAB SDK, if you receive an error indicating that you do not have enough space in `/tmp/` uncheck some of the other add-ons that are selected by default until you are able to install it. You can always install additional add-ons later by starting MATLAB with `sudo matlab` and then selecting addons.
-8. Activate MATLAB and sign in for a 3rd time
+8. Activate MATLAB and sign in for a 3rd time or just type your user account name depending on the prompt
 
+## MRArch2
 
+1. `yay --editmenu -S spm12`
 
