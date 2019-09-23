@@ -94,7 +94,7 @@ We now have a base system with almost nothing installed, we have no desktop, ver
 1. clone the MRarch repository so that you can run my install script for all the neuroimaging and desktop: `git clone https://github.com/liamtimms/mrarch.git`
 2. `cd mrarch` to go into the folder you just downloaded then run: `./MRArch` to start the script
 3. enter password, hit enter to continue as needed
-4. when confronted with a ccmake prompt (will look different from the normal prompt), hit `c` , this will do an initial configuration for the compilation of ANTS (https://github.com/ANTsX/ANTs), hit `c` again
+4. when confronted with a ccmake prompt (will look different from the normal prompt), hit `c` , this will do an initial configuration for the compilation of ANTS (https://github.com/ANTsX/ANTs), hit `c` again, then press `g`
 4. wait a long time as a lot will need to download, install and sometimes also compile
 5. after the install script you should be able to boot into the GNOME desktop environment (DE), try rebooting now and login
 
