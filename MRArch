@@ -23,7 +23,7 @@ makepkg -si
 # Utilities
 sudo pacman --noconfirm --needed -S pacutils xclip fzf zip unzip cmake
 # CLI stuff
-sudo pacman --noconfirm --needed -S neofetch ranger neovim awesome-terminal-fonts
+sudo pacman --noconfirm --needed -S neofetch ranger neovim python-pynvim awesome-terminal-fonts
 # VirtualBox guest help
 sudo pacman --noconfirm --needed -S virtualbox-guest-modules-arch virtualbox-guest-utils xf86-video-vmware
 # GUI stuff
