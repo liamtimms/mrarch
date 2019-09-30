@@ -27,5 +27,14 @@ clear spmhome
 %-----------------------------------------------------%
 EOT
 
+# To set-up nipype correctly we need to do a bit of shenanigans
+# to work around this: https://github.com/nipy/nipype/issues/3055
+yay -S python-prov
+yay -S python-neurdflib # This should build but Error on install
+cd ~/.cache/yay/python-neurdflib/
+# Now we force the installation of neurdflib
+sudo pacman -U --force python-neurdflib*.pkg.tar.xz
+
+# An now we finally can install nipype
 yay -S python-nipype
 yay --stats --show
