@@ -18,6 +18,8 @@ cd ~
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
+# Save Sudo Loop option to stop sudo from timing out during builds
+yay --save --sudoloop
 
 # Basic useful programs
 # Utilities
