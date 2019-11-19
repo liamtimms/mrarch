@@ -2,13 +2,14 @@
 # Purpose: A script to set up Arch Linux for Neuroimaging
 # Author: Liam Timms
 # Date: 9/16/19
-# Version: 0.1.1
+# Version: 0.2
 
 # Download Canadian and USA mirrorlist, then rank them by speed
 sudo pacman --noconfirm --needed -S pacman-contrib
 cp ~/etc/pacman.d/mirrorlist ~/etc/pacman.d/mirrorlist.backup
 curl -s "https://www.archlinux.org/mirrorlist/?country=CA&country=US&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 - > ~/etc/pacman.d/mirrorlist
 sudo pacman --noconfirm --needed -S base-devel
+
 
 # Download Yay and install it from source code
 # Yay will then be used to install all AUR packages
@@ -20,6 +21,17 @@ cd yay
 makepkg -si
 # Save Sudo Loop option to stop sudo from timing out during builds
 yay --save --sudoloop
+yay --save --nodiffmenu
+yay --save --nocleanmenu
+yay --save --cleanafter
+yay --save --noremovemake
+
+
+# Now start installing AUR packages for Neuroimaging
+# For BART we need "openblas-lapack" which then requires it's own version of python-numpy
+yay -S openblas-lapack
+yay -S python-numpy-openblas
+# installing this before other python so that numpy doesn't need to be overwriten later
 
 # Basic useful programs
 # Utilities
@@ -35,36 +47,20 @@ sudo pacman --noconfirm --needed -S xf86-input-synaptics
 sudo pacman --noconfirm --needed -S firefox noto-fonts jupyterlab zathura-pdf-mupdf baobab libreoffice-fresh
 # Python base packages
 sudo pacman --noconfirm --needed -S python-scipy
-# Now start installing AUR packages for Neuroimaging
+
+# And now back to the yay
+yay -S bart-git
 yay -S python-nibabel
 yay -S gdcm
-# commenting out spm12 because it should be installed after MATLAB
-# However, it's possible this is a hidden dependency for another
-# Neuroimaging suite
-# yay -S spm12
 yay -S freesurfer
 yay -S fsl
-# yay -S ants
 yay -S 3dslicer
 yay -S afni
 yay -S insight-toolkit #need to add patch: make generic in CMAKE
+yay -S ants-git
 
-
-# Ants manual install
-mkdir ~/code
-cd ~/code/
-git clone https://github.com/stnava/ANTs.git
-mkdir -p ~/bin/ants
-cd ~/bin/ants/
-ccmake ~/code/ANTs/
-make
-cat <<EOT >> ~/.bashrc
-export ANTSPATH=${HOME}/bin/ants/bin/
-export PATH=${ANTSPATH}:$PATH
-EOT
-pacman -Qi ants
-# At this point, the underlying Neuroimaging suites should be
-# installed and working, but not those that depend on MATLAB
+## At this point, the most underlying Neuroimaging suites should be
+## installed and working, but not those that depend on MATLAB
 
 #git clone https://github.com/liamtimms/aur.git
 
@@ -86,4 +82,4 @@ yay -S gnome-terminal-transparency
 yay -S gnome-shell-extension-dash-to-dock
 sudo pacman --noconfirm --needed -S nodejs
 
-# Next you need to install MATLAB and then run MRArch2
+# IMPORTANT NOTE: Next you need to install MATLAB manually and then run MRArch2

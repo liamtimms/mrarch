@@ -35,8 +35,9 @@ cd ~/.cache/yay/python-neurdflib/
 # Now we force the installation of neurdflib
 # this line was broken by pacman update 5.2
 # sudo pacman -U --force python-neurdflib*.pkg.tar.xz
-sudo pacman -U --overwrite /usr/lib/python* python-neurdflib*.pkg.tar.xz
+sudo pacman -U python-neurdflib*.pkg.tar.xz --overwrite usr/lib/*
 
 # An now we finally can install nipype
 yay -S python-nipype
+yay --gendb
 yay --stats --show
