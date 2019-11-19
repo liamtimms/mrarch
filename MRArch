@@ -44,13 +44,14 @@ sudo pacman --noconfirm --needed -S virtualbox-guest-modules-arch virtualbox-gue
 #sudo pacman --noconfirm --needed -S xf86-video-intel
 sudo pacman --noconfirm --needed -S xorg
 sudo pacman --noconfirm --needed -S xf86-input-synaptics
-sudo pacman --noconfirm --needed -S firefox noto-fonts jupyterlab zathura-pdf-mupdf baobab libreoffice-fresh
+sudo pacman --noconfirm --needed -S firefox noto-fonts jupyterlab zathura-pdf-mupdf baobab
 # Python base packages
 sudo pacman --noconfirm --needed -S python-scipy
 
 # And now back to the yay
 yay -S bart-git
 yay -S python-nibabel
+yay -S python-dcm2bids
 yay -S gdcm
 yay -S freesurfer
 yay -S fsl
