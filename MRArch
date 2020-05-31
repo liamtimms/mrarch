@@ -1,8 +1,7 @@
 #!/bin/bash
 # Purpose: A script to set up Arch Linux for Neuroimaging
 # Author: Liam Timms
-# Date: 9/16/19
-# Version: 0.2
+# Version: 0.2.1
 
 # Download Canadian and USA mirrorlist, then rank them by speed
 sudo pacman --noconfirm --needed -S pacman-contrib
@@ -28,24 +27,26 @@ yay --save --noremovemake
 
 
 # Now start installing AUR packages for Neuroimaging
-# For BART we need "openblas-lapack" which then requires it's own version of python-numpy
-yay -S openblas-lapack
+# For BART we need "openblas-lapack" which will means a different version of numpy is needed too
+# yay -S openblas-lapack # called as a dependency by:
 yay -S python-numpy-openblas
-# installing this before other python so that numpy doesn't need to be overwriten later
+# installing this early so that numpy doesn't need to be overwriten later
 
 # Basic useful programs
 # Utilities
 sudo pacman --noconfirm --needed -S pacutils xclip fzf zip unzip cmake
 # CLI stuff
-sudo pacman --noconfirm --needed -S neofetch ranger neovim python-pynvim awesome-terminal-fonts
+sudo pacman --noconfirm --needed -S neofetch ranger neovim python-pynvim awesome-terminal-fonts noto-fonts
 # VirtualBox guest help
-sudo pacman --noconfirm --needed -S virtualbox-guest-modules-arch virtualbox-guest-utils xf86-video-vmware
+sudo pacman --noconfirm --needed -S virtualbox-guest-modules-arch virtualbox-guest-utils
+# be sure you install the correct video driver
+sudo pacman xf86-video-vmware
+# sudo pacman --noconfirm --needed -S xf86-video-intel
 # GUI stuff
-#sudo pacman --noconfirm --needed -S xf86-video-intel
+# sudo pacman --noconfirm --needed -S xf86-input-synaptics
 sudo pacman --noconfirm --needed -S xorg
-sudo pacman --noconfirm --needed -S xf86-input-synaptics
-sudo pacman --noconfirm --needed -S firefox noto-fonts jupyterlab zathura-pdf-mupdf baobab
-# Python base packages
+sudo pacman --noconfirm --needed -S firefox jupyterlab zathura-pdf-mupdf
+# Python packages
 sudo pacman --noconfirm --needed -S python-scipy
 
 # And now back to the yay
@@ -66,19 +67,14 @@ yay -S ants-git
 #git clone https://github.com/liamtimms/aur.git
 
 # Setting up GNOME
-sudo pacman --noconfirm --needed -S xorg
-sudo pacman --noconfirm --needed -S libinput
 sudo pacman --noconfirm --needed -S gnome gnome-terminal gnome-tweaks
-sudo pacman --noconfirm --needed -S gdm # the display manager
-systemctl enable gdm
-sudo pacman --noconfirm --needed -S networkmanager gnome-keyring
+sudo systemctl enable gdm
 sudo systemctl start NetworkManager
 sudo systemctl enable NetworkManager
-sudo pacman --noconfirm --needed -S gnome-shell-extensions
-yay -S ttf-ms-fonts
-# Themeing
-sudo pacman --noconfirm --needed -S hicolor-icon-theme papirus-icon-theme arc-gtk-theme
 sudo pacman --noconfirm --needed -S chrome-gnome-shell
+# Themeing and extras
+yay -S ttf-ms-fonts
+sudo pacman --noconfirm --needed -S papirus-icon-theme
 yay -S gnome-terminal-transparency
 yay -S gnome-shell-extension-dash-to-dock
 sudo pacman --noconfirm --needed -S nodejs
