@@ -1,84 +1,117 @@
-#!/
-# Purpose: a script for copying from GoogleDrive using rclone
-# Input  : a folder from Google Drive to copy onto this computer
-# Author : Liam Timms
-# Date   : 9/17/19
-# Version: 1
-
-timedatectl set-ntp true
-loadkeys "US"
-lsblk
-export EDITOR=vim
-EDITOR=vim
-cp
-
-parted ${device} mklabel gpt
-echo "${txtautopartcreate//%1/EFI boot}"
-sgdisk ${device} -n=1:0:+1024M -t=1:ef00
-echo "${txtautopartcreate//%1/swap}"
-swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
-swapsize=$((${swapsize}/1000))"M"
-sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
-echo "${txtautopartcreate//%1/root}"
-sgdisk ${device} -n=4:0:0
-
-
-PS3='Select Environment: '
-options=("Local VM" "Other")
-select opt in "${options[@]}"
-do
-  case "$opt" in
-    "VirtualBox")
-      DISK=sda
-      PORT=2222
-      HOST=127.0.0.1
-      break
-      ;;
-    "Other")
-      DISK=vda
-      PORT=22
-      echo -n "HOST: "
-      read HOST
-      break
-      ;;
-    *) echo Invalid;;
-  esac
-done
-
-echo DISK="$DISK", PORT="$PORT", HOST="$HOST"
-
 #!/bin/bash
+# Author : Liam Timms
 
-DISK="/dev/$1"
-PARTITION="${DISK}1"
+echo -n "Hostname (what you want this machine to be called): "
+read hostname
+: "${hostname:?"Missing hostname"}"
+echo -n "[Root] Password: "
+read -s password
+echo
+echo -n "Repeat Password: "
+read -s password2
+echo
+[[ "$password" == "$password2" ]] || ( echo "Passwords did not match"; exit 1; )
 
-echo DISK="$DISK", PARTITION="$PARTITION"
+swap_size=$(free --mebi | awk '/Mem:/ {print $2}')
+swap_end=$(( $swap_size + 129 + 1 ))MiB
 
-parted -s "$DISK" mklabel msdos
-parted -s -a optimal "$DISK" mkpart primary ext4 0% 100%
-parted -s "$DISK" set 1 boot on
-mkfs.ext4 -F "$PARTITION"
+parted --script "${device}" -- mklabel gpt \
+  mkpart ESP fat32 1Mib 129MiB \
+  set 1 boot on \
+  mkpart primary linux-swap 129MiB ${swap_end} \
+  mkpart primary ext4 ${swap_end} 100%
 
-# you can find your closest server from: https://www.archlinux.org/mirrorlist/all/
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-echo 'Server = http://mirror.internode.on.net/pub/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 
-awk '/^## Country Name$/{f=1}f==0{next}/^$/{exit}{print substr($0, 2)}' /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
-mount "$PARTITION" /mnt
-pacman -Syy
-
-# would recommend to use linux-lts kernel if you are running a server environment, otherwise just use "linux"
-pacstrap /mnt base base-devel grub sudo wget neovim
-genfstab -p /mnt >> /mnt/etc/fstab
-
-#cp ./chroot.sh /mnt
-#arch-chroot /mnt ./chroot.sh "$DISK"
-arch-chroot /mnt
-
-#rm /mnt/chroot.sh
-ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
-hwclock --systohc
-
-umount -R /mnt
-systemctl reboot
+# hostname=$(dialog --stdout --inputbox "Enter hostname" 0 0) || exit 1
+# : ${hostname:?"hostname cannot be empty"}
+#
+# password=$(dialog --stdout --passwordbox "Enter password" 0 0) || exit 1
+# : ${hostname:?"hostname cannot be empty"}
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# timedatectl set-ntp true
+# loadkeys "US"
+# lsblk
+# export EDITOR=vim
+# EDITOR=vim
+# cp
+#
+# parted ${device} mklabel gpt
+# echo "${txtautopartcreate//%1/EFI boot}"
+# sgdisk ${device} -n=1:0:+1024M -t=1:ef00
+# echo "${txtautopartcreate//%1/swap}"
+# swapsize=$(cat /proc/meminfo | grep MemTotal | awk '{ print $2 }')
+# swapsize=$((${swapsize}/1000))"M"
+# sgdisk ${device} -n=3:0:+${swapsize} -t=3:8200
+# echo "${txtautopartcreate//%1/root}"
+# sgdisk ${device} -n=4:0:0
+#
+#
+# PS3='Select Environment: '
+# options=("Local VM" "Other")
+# select opt in "${options[@]}"
+# do
+#   case "$opt" in
+#     "VirtualBox")
+#       DISK=sda
+#       PORT=2222
+#       HOST=127.0.0.1
+#       break
+#       ;;
+#     "Other")
+#       DISK=vda
+#       PORT=22
+#       echo -n "HOST: "
+#       read HOST
+#       break
+#       ;;
+#     *) echo Invalid;;
+#   esac
+# done
+#
+# echo DISK="$DISK", PORT="$PORT", HOST="$HOST"
+#
+# #!/bin/bash
+#
+# DISK="/dev/$1"
+# PARTITION="${DISK}1"
+#
+# echo DISK="$DISK", PARTITION="$PARTITION"
+#
+# parted -s "$DISK" mklabel msdos
+# parted -s -a optimal "$DISK" mkpart primary ext4 0% 100%
+# parted -s "$DISK" set 1 boot on
+# mkfs.ext4 -F "$PARTITION"
+#
+# # you can find your closest server from: https://www.archlinux.org/mirrorlist/all/
+# cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+# echo 'Server = http://mirror.internode.on.net/pub/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+#
+# awk '/^## Country Name$/{f=1}f==0{next}/^$/{exit}{print substr($0, 2)}' /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+#
+# mount "$PARTITION" /mnt
+# pacman -Syy
+#
+# # would recommend to use linux-lts kernel if you are running a server environment, otherwise just use "linux"
+# pacstrap /mnt base base-devel grub sudo wget neovim
+# genfstab -p /mnt >> /mnt/etc/fstab
+#
+# #cp ./chroot.sh /mnt
+# #arch-chroot /mnt ./chroot.sh "$DISK"
+# arch-chroot /mnt
+#
+# #rm /mnt/chroot.sh
+# ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
+# hwclock --systohc
+#
+# umount -R /mnt
+# systemctl reboot
