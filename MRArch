@@ -1,13 +1,13 @@
 #!/bin/bash
 # Purpose: A script to set up Arch Linux for Neuroimaging
 # Author: Liam Timms
-# Version: 0.2.1
+# Version: 0.3.0
 
 # Download Canadian and USA mirrorlist, then rank them by speed
-sudo pacman --noconfirm --needed -S pacman-contrib
+sudo pacman --noconfirm --needed -S reflector
 cp ~/etc/pacman.d/mirrorlist ~/etc/pacman.d/mirrorlist.backup
-curl -s "https://www.archlinux.org/mirrorlist/?country=CA&country=US&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 - > ~/etc/pacman.d/mirrorlist
-sudo pacman --noconfirm --needed -S base-devel
+reflector --latest 200 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+sudo pacman --noconfirm --needed -S pacman-contrib base-devel
 
 
 # Download Yay and install it from source code
@@ -34,9 +34,9 @@ yay -S python-numpy-openblas
 
 # Basic useful programs
 # Utilities
-sudo pacman --noconfirm --needed -S pacutils xclip fzf zip unzip cmake
+sudo pacman --noconfirm --needed -S pacutils xclip zip unzip cmake
 # CLI stuff
-sudo pacman --noconfirm --needed -S neofetch ranger neovim python-pynvim awesome-terminal-fonts noto-fonts
+sudo pacman --noconfirm --needed -S fzf neofetch ranger neovim python-pynvim awesome-terminal-fonts noto-fonts
 # VirtualBox guest help
 sudo pacman --noconfirm --needed -S virtualbox-guest-modules-arch virtualbox-guest-utils
 # be sure you install the correct video driver
@@ -44,7 +44,6 @@ sudo pacman xf86-video-vmware
 # sudo pacman --noconfirm --needed -S xf86-video-intel
 # GUI stuff
 # sudo pacman --noconfirm --needed -S xf86-input-synaptics
-sudo pacman --noconfirm --needed -S xorg
 sudo pacman --noconfirm --needed -S firefox jupyterlab zathura-pdf-mupdf
 # Python packages
 sudo pacman --noconfirm --needed -S python-scipy
@@ -76,7 +75,6 @@ sudo pacman --noconfirm --needed -S chrome-gnome-shell
 yay -S ttf-ms-fonts
 sudo pacman --noconfirm --needed -S papirus-icon-theme
 yay -S gnome-terminal-transparency
-yay -S gnome-shell-extension-dash-to-dock
 sudo pacman --noconfirm --needed -S nodejs
 
 # IMPORTANT NOTE: Next you need to install MATLAB manually and then run MRArch2
