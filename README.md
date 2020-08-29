@@ -1,6 +1,6 @@
-# Arch Linux for MRI (MRArch)
+# MRI software on Arch Linux (MRArch)
 
-This repo includes a guide to installing Arch Linux on a virtualbox virtual machine (archinstall.md) and scripts for installing and configuring a most major neuroimaging programs on Arch Linux after install automatically. It's designed for use in a VM but can also easily be applied to bare metal for better performance (you will need to edit the `MRArch` bashscript to change from the vmware display driver)
+This repo includes a guide to installing Arch Linux on a virtualbox virtual machine (archinstall.md) and scripts for installing  most major neuroimaging programs on Arch Linux after install automatically. It's designed for use in a VM but can also easily be applied to bare metal installs for better performance (you will need to edit the `MRArch` bashscript to change from the vmware display driver).
 
 The programs included in the full setup are:
 * **3D Slicer**: https://www.slicer.org/
@@ -14,6 +14,7 @@ The programs included in the full setup are:
 
 and multiple **nipy** (https://nipy.org/) python library initiatives, notably:
 * **nibabel**: https://nipy.org/nibabel/
+* **nilearn**:
 * **nipype**: https://nipype.readthedocs.io/en/latest/bin
 
 Nipype is a particularly useful and important part of this installation as it allows one to create custom pipelines which seamlessly mix and match functions from the neuroimaging suites. The install guide includes additional instructions for installing MATLAB prior to SPM12 and nipype as this cannot be automated due to the restrictive MATLAB download and licensing.

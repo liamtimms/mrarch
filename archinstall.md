@@ -6,7 +6,7 @@ date: 9/18/19
 # Install Virtual Box
 ## Download
 * Windows: https://www.virtualbox.org/
-* Linux: it's in your repository (apt install, pacman -S, etc.)
+* Linux: it's in your distro's repository (use `apt install`, `pacman -S`, etc.)
 
 ## Install
 * Windows: go through installer
@@ -14,34 +14,32 @@ date: 9/18/19
 
 # Set up the Virtual Machine (VM)
 ## Download
-
 1. Go to https://www.archlinux.org/download/
-
 2. Get most recent ISO
 
 ## Make a VM
 1. Open virtualbox
-2. click "new", each remaining item corresponds to one screen of options
-3. **Name**: a name for your virtual machine AVOID CAPS AND SPACES, **Type**: Linux, **Version**: Arch Linux (64-bit)
-4. **Memory size**: at least 4GB but up to 50-60% of your total RAM if you don't plan to run much concurrently with the VM.
-5. **create virtual hard disk**
-6. **VDI**
-7. **Dynamically allocated** keeps the file from being huge
+2. click "new", each remaining item in this list corresponds to *one screen* of options
+3. **Name**: a name for your virtual machine (avoid capital letters and spaces), **Type**: Linux, **Version**: Arch Linux (64-bit)
+4. **Memory size**: at least 4GB but up to 50-60% of your total RAM if you value VM performance
+5. click **create virtual hard disk**
+6. pick **VDI**
+7. choose **Dynamically allocated** (keeps the file from being larger than necessary)
 8. For **size**: enter at least 50GB, the full suite of neuroimaging analysis software is quite large, Ideally the VM should be closer to 100GB (though you will not use 100GB on your host machine if it is dynamically allocated)
-9. to speed up the install process, it is a good idea to go into the **Settings** for the new VM, click on **System** -> **Processor** and increase the number of virtual cores available to the VM
+9. to speed up the install process, it is strongly recommended that you go into the **Settings** for the new VM, click on **System** -> **Processor** and increase the number of virtual cores available to the VM before proceeding. The nuber of virtual cores must be less than the total real cores on your machine.
 10. Next in **Settings** you should go to **Display** and change the *Graphics Controller* option to be `VBoxVGA`
-11. finish and hit the green start arrow to boot the machine
+11. finish and hit the green start arrow to boot the VM
 
 ## Boot into the live environment
-1. Choose the arch ISO you downloaded to boot from when prompted, choose to start the live environment
-2. The live environment allows us to make changes formatting changes to the new VM disk
+1. When prompted to pick an image to boot, choose the arch ISO you downloaded earlier, then choose to start the live environment
+    * The live environment allows us to make changes formatting changes to the new VM disk and install the OS
 3. to speed things up we will use an install script: https://github.com/MatMoul/archfi , follow the instructions for downloading the script and running it in the live environment as explained on the page for that project.
 5. For detailed help or background information about the install process (instructions for the full install without the archfi script) see: https://wiki.archlinux.org/index.php/Installation_guide
 
 ## Installing with Archfi in the VM
 1. **Language**: English
 2. **Keyboard Layout**: us
-3. **Editor**: vim probably
+3. **Editor**: `vim` if you know what how to use it or `nano` if you want something simple but less powerful
 4. **Disk Partitions**: Auto Partitions (dos), sda
 5. **Select Partitions and Install:**
     * *select boot device*: /dev/sda1
@@ -55,11 +53,12 @@ date: 9/18/19
     * *Select partition format for root*: ext4
 7. **Mount Install or Config**
     * **Edit mirror list**: this opens the full mirror list using the editor we chose earlier (suggested vim), through a method of your choice move cc.columbia.edu to the top of the list and you may potentially wish to also move up NYU or comment out all the non-US servers (this step is Boston specific)
+        + this step may not be necessary for installs after August 2020.
 8. **Install arch linux pacstrap base**: this now actually installs arch onto the VM disk
 
 ## After the Install
 
-We now have a base system with almost nothing installed, we have no desktop, very little software, no users, no password, next we will set up all of that
+We now have a base system with almost nothing installed; we have no desktop, minimal little software, no users, no password, no specialized configurations. These next steps will set up all of that.
 
 1. **Set Computer Name**: best to use the same name as what you named the virtual machine at the begining of its set-up (this is why I said no caps and spaces)
 2. **Keyboard Layout**: us
