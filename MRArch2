@@ -1,8 +1,8 @@
 #!/bin/bash
 # Script to be run after installing MATLAB
 
-# MATLAB is very annoying and they don't let Linux repos
-# host any of the files, it's the worst
+# MATLAB is annoyingly restricted proprietary software
+# so it requires a more manual installation
 # To install MATLAB you must:
 # 1. go to mathworks site
 # 2. you have to download, extract and start installer

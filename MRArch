@@ -41,7 +41,6 @@ sudo pacman --noconfirm --needed -S fzf neofetch ranger neovim python-pynvim awe
 sudo pacman --noconfirm --needed -S virtualbox-guest-modules-arch virtualbox-guest-utils
 # be sure you install the correct video driver
 sudo pacman xf86-video-vmware
-# sudo pacman --noconfirm --needed -S xf86-video-intel
 # GUI stuff
 # sudo pacman --noconfirm --needed -S xf86-input-synaptics
 sudo pacman --noconfirm --needed -S firefox jupyterlab zathura-pdf-mupdf
@@ -77,4 +76,4 @@ sudo pacman --noconfirm --needed -S papirus-icon-theme
 yay -S gnome-terminal-transparency
 sudo pacman --noconfirm --needed -S nodejs
 
-# IMPORTANT NOTE: Next you need to install MATLAB manually and then run MRArch2
+echo "IMPORTANT NOTE: Next you need to install MATLAB manually and then run MRArch2"
