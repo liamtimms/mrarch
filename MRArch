@@ -62,18 +62,5 @@ yay -S ants-git
 ## At this point, the most underlying Neuroimaging suites should be
 ## installed and working, but not those that depend on MATLAB
 
-#git clone https://github.com/liamtimms/aur.git
-
-# Setting up GNOME
-sudo pacman --noconfirm --needed -S gnome gnome-terminal gnome-tweaks
-sudo systemctl enable gdm
-sudo systemctl start NetworkManager
-sudo systemctl enable NetworkManager
-sudo pacman --noconfirm --needed -S chrome-gnome-shell
-# Themeing and extras
-yay -S ttf-ms-fonts
-sudo pacman --noconfirm --needed -S papirus-icon-theme
-yay -S gnome-terminal-transparency
-sudo pacman --noconfirm --needed -S nodejs
 
 echo "IMPORTANT NOTE: Next you need to install MATLAB manually and then run MRArch2"
