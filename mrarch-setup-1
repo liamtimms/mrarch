@@ -1,0 +1,112 @@
+#!/bin/bash
+# Purpose: Setup the MRArch system
+# Author:  Liam Timms
+# Version: 0.4.0
+
+# TODO: add check for parallel compilation
+# can move building to parallel
+
+pacman_flags="--noconfirm --needed"
+
+# SETUP VARIABLES
+declare -a neuroimaging_pkgs=(
+	# build and install packages from Arch User Repositories
+	# For BART we need "openblas-lapack"
+	# that will means a different version of numpy is needed too
+	"bart-git"          # BART
+	"simpleitk"         # SimpleITK
+	"gdcm"              # GDCM commandline utilities and c++ lib (for dicom)
+	"ants"              # ANTS for image processing
+	"fsl"               # FSL
+	"afni"              # AFNI
+	"afni-atlases"      # neuroimaging atlases for AFNI
+	"freesurfer-bin"    # FreeSurfer
+	"zotero-bin"        # Zotero (for citations and literature)
+	"3dslicer-bin"      # 3D Slicer (for viewing and manipulating 3D images)
+	"paraview"          # ParaView (for viewing and manipulating 3D images)
+	"dcmtk"             # DCM Toolkit (for DICOM manipulation)
+	"mrtrix3-git"       # MRtrix3 (for processing and visualising diffusion data)
+	"python-nibabel"    # nibabel for working with DICOM and NIFTI in python
+	"python-nilearn"    # nilearn for machine learning
+	"python-datalad"    # datalad for managing datasets
+	"python-pydicom"    # pydicom for working with DICOM in python
+	"python-dcm2bids"   # dcm2bids for converting DICOM to BIDS
+	"python-dcm_parser" # dcm_parser for parsing DICOM headers
+
+)
+
+declare -a optional_official_pkgs=(
+	# CLI Quality of life
+	"bash-completion" # Bash completion
+	"fd"
+	"ripgrep"
+	"rclone"
+	"parallel"
+	# GUI
+	"firefox"    # Firefox browser
+	"jupyterlab" # Firefox browser
+	# Python
+	"python-seaborn"
+
+)
+
+declare -a required_official_pkgs=(
+	# Install packages from the official repos needed for later steps
+	# General
+	"base-devel"     # Base development tools
+	"pacman-contrib" # Pacman contrib
+	"reflector"      # Reflector
+	"wget"           # wget to download things
+	"xdg-utils"      # contains multiple useful commands
+	"ccache"         # compilation caching
+	"fzf"            # Fuzzy finder
+)
+
+declare -a gnome_pkgs=(
+	# Install packages for the GNOME desktop environment
+	"gnome" # GNOME desktop environment
+	"gnome-tweaks"
+	"gnome-terminal"
+	"gnome-boxes"
+	"evolution"
+	"wl-clipboard" # Clipboard manager for wayland
+)
+
+function check_makepkgconf() {
+	# check if makepkg.conf has parallel compilation
+	if ! grep -q "MAKEFLAGS=\"-j$(nproc)\"" /etc/makepkg.conf; then
+		echo "You $(nproc) cores and can enable parallel compilation for AUR packages."
+		echo "If you have not done so, mannually edit /etc/makepkg.conf to enable MAKEFLAGS=\"-j<SomeNumberOfCores>\""
+		echo "I recommend either half the number of cores i.e. MAKEFLAGS=\"-j($(expr $(nproc) / 2)\""
+		echo "or the total number of cores minus one like MAKEFLAGS=\"-j($(expr $(nproc) - 1)\"."
+		echo "This will greatly speed up compilation, however there is a risk of running of RAM during compilation of some programs if your system has low RAM but a high number of cores."
+		read -p "More info? [y]/n " -n 1 -r
+		echo # (optional) move to a new line
+		if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+			exit 1
+		fi
+
+	fi
+
+}
+
+function prepare() {
+	refresh-mirrorlist
+	sudo pacman -Syu --noconfirm --needed base-devel reflector git
+	check_list
+	check_makepkgconf
+	# if selected includes BART then deal with numpy-openblas
+}
+
+function gnome-install() {
+	# get the full list of the current gnome package but explude the ones we don't want
+	# we avoid gnome-software because it can lead to conflicts on Arch (use paru instead)
+	# we don't bother with gnome-console because we use gnome-terminal
+	# malcontent provides parental controls and is not needed for most users
+
+	gnome_pkgs="$(pacman -Qqg gnome | grep -v -e gnome-software -e gnome-console -e malcontent | tr '\n' ' ') gnome-terminal evolution wl-clipboard"
+	sudo pacman -S ${pacman_flags} $gnome_pkgs
+	sudo systemctl enable gdm
+}
+
+check_makepkgconf
